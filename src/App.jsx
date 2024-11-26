@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import ProductDetail from './pages/ProductDetails';
+import Cart from './pages/Cart';
+import { CartProvider } from './context/CartContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <CartProvider>
+            <Router>
+                <div className="App">
+                    <header>
+                        <div className="container">
+                            <div className="header-links">
+                            <h1>KITCHEN CORNER</h1>
+                                <Link to="/" className="header-link">Home</Link>
+                                <Link to="/cart" className="header-link">
+                                    <FontAwesomeIcon icon={faShoppingCart} size="lg" />
+                                </Link>
+                            </div>
+                        </div>
+                    </header>
+                    <main className="main-content">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/product/:productId" element={<ProductDetail />} />
+                            <Route path="/cart" element={<Cart />} />
+                        </Routes>
+                    </main>
+                </div>
+            </Router>
+            <footer>
+                <div className="container">
+                    &copy; 2024 Our Restaurant. All rights reserved.
+                </div>
+            </footer>
+        </CartProvider>
+    );
 }
 
-export default App
+export default App;
